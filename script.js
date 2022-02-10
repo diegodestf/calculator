@@ -47,6 +47,7 @@ class Calculator {
                 break;
             case '÷':
                 computation = prev / current;
+                break;
             default:
                 return;
         }
@@ -84,23 +85,6 @@ class Calculator {
         }
          
     }
-
-    handleKeyboardInput(e) {
-        if (e.key >= 0 && e.key <= 9) this.appendNumber(e.key)
-        if (e.key === '.') this.appendNumber();
-        if (e.key === '=' || e.key === 'Enter') this.compute();
-        if (e.key === 'Backspace') this.delete();
-        if (e.key === 'Escape') this.clear();
-        if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/')
-          this.chooseOperation(convertOperator(e.key));
-      }
-      
-      convertOperator(keyboardOperator) {
-        if (keyboardOperator === '/') return '÷'
-        if (keyboardOperator === '*') return '*'
-        if (keyboardOperator === '-') return '-'
-        if (keyboardOperator === '+') return '+'
-      }
 }
 
 const numberButtons = document.querySelectorAll("[data-number]");
@@ -145,6 +129,7 @@ deleteButton.addEventListener('click', () => {
 document.addEventListener('keydown', function(event) {
     let patternForNumbers = /[0-9]/g;
     let patternForOperators = /[+\-*\/]/g;
+    
     if (event.key.match(patternForNumbers)) {
         event.preventDefault();
         calculator.appendNumber(event.key);
@@ -156,6 +141,9 @@ document.addEventListener('keydown', function(event) {
         calculator.updateDisplay();
     }
     if (event.key.match(patternForOperators)) {
+        if (event.key === '/') {
+            event.key === document.getElementById('divide-button').click();
+        }
         event.preventDefault();
         calculator.chooseOperation(event.key);
         calculator.updateDisplay();
@@ -170,7 +158,7 @@ document.addEventListener('keydown', function(event) {
         calculator.delete();
         calculator.updateDisplay()
     }
-    if (event.key === 'Delete') {
+    if (event.key === 'Escape') {
         event.preventDefault();
         calculator.clear();
         calculator.updateDisplay();
